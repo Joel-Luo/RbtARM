@@ -26,10 +26,10 @@ namespace RbtARM
             bool SetAngle(int angle);
 
 
-    } // ServoControl  
+    }; // ServoControl  
 
 } // namespace
 
 
 
-#endif SERVO_CONTROL_H
+#endif

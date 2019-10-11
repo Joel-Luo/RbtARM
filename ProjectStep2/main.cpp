@@ -1,7 +1,10 @@
 
 
 #include <stdio.h>
-#include <ServoControl.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "ServoControl.h"
 
 using namespace RbtARM;
 
@@ -11,48 +14,64 @@ int main(int argc, char **argv)
 
     
     
-    char temp = '\0';
+    char * temp = new char[20];
 
     int Min = 0;
     int Max = 180;
     int data = 0;
+    int Dir = 1;
 
-    ServoCtrl->Initail();
+    ServoCtrl->Initial();
 
 
-    printf("Enter W/S to Up/Down. q to quite.\n");
+    printf("Enter Angle. q to quite.\n");
 
+    int i = 0;
     do 
     {
-        scanf( "%c", &temp);
+        //scanf( "%s", temp);
 
-        if( temp == 'q' ){
+
+        if( strcmp(temp, "q") == 0 ){
             printf("Exit.\n" );
             break;
-        } // if
+        } // if       
 
-        else if( temp == 'w' )
-        {
-            data+=1;
-            if( data > Max )
-                data = Max ;
-        }  // else if
-        
-        else if( temp == 's' )
-        {
-            data-=1;
-            if( data < Min )
-                data = Min ;
-        } // else if
-
-        else if( temp == 'r' )
+        else if( strcmp(temp, "r") == 0  )
         {
             data = Min;
         } // else if
 
+        else 
+        {
+            //int v = atoi(temp);
+            //if( v > Max ) 
+            //    data = Max;
+            //else if( v < Min )
+            //    data = Min;
+            //else 
+            //    data = v;
+            
+            data+= (9*Dir);
+            if(data > Max ){
+                data = Max;
+                Dir = -1;
+                i++;
+            }  // if
+            else if ( data < Min )
+            {
+                data = Min;
+                Dir = 1 ;
+            }  // else 
+
+            printf("Insert angle %d\n", data );
+        }  // else
+
         ServoCtrl->SetAngle(data);
 
-    }while(true);
+    }while(true&& i < 10);
+
+        
 
     ServoCtrl->Close();
 

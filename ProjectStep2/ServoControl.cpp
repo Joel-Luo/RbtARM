@@ -10,16 +10,16 @@
 #define BCM2835_PWM_CLOCK_DIVIDER_1920 1920
 
 
-ServoControl::ServoControl(int PinNmber):
+RbtARM::ServoControl::ServoControl(int PinNmber):
 m_PinNumber(PinNmber)
 {
     m_Min_value = 9;
-    m_Max_value = 30;
+    m_Max_value = 28;
     
 } // ServoControl::ServoControl() 
 
 
-bool ServoControl::Initial()
+bool RbtARM::ServoControl::Initial()
 {
 	if (!bcm2835_init())
         return false;
@@ -45,7 +45,7 @@ bool ServoControl::Initial()
 }
 
 
-bool ServoControl::Close()
+bool RbtARM::ServoControl::Close()
 {
 	bcm2835_pwm_set_data(PWM_CHANNEL, m_Min_value);
 
@@ -55,7 +55,7 @@ bool ServoControl::Close()
     return true;
 }
 
-bool ServoControl::SetAngle(int angle)
+bool RbtARM::ServoControl::SetAngle(int angle)
 {
 	    if( angle < 0 || angle > 180)
 	    {
@@ -66,18 +66,21 @@ bool ServoControl::SetAngle(int angle)
         int value = TranslateAngle2Value(angle);
 
         bcm2835_pwm_set_data(PWM_CHANNEL, value);
-        bcm2835_delay(1000);
+        bcm2835_delay(50);
+
+        return true ;
 }
 
 
-int ServoControl::TranslateAngle2Value(int angle)
+int RbtARM::ServoControl::TranslateAngle2Value(int angle)
 {
 	double ValuePerAngle = ((double)(m_Max_value - m_Min_value))/180.0;
-    double value = ValuePerAngle * ((double)angle);
+    double value = ValuePerAngle * ((double)angle) + m_Min_value;
 
-
+#ifdef DEBUG
     printf("Set Angle:%d to Value:%f \n", angle, value);
-
+#endif
 
     return (int)value;
 }
+
