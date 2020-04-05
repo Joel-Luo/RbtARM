@@ -3,20 +3,7 @@
 // Example program for bcm2835 library
 // Shows how to use PWM to control GPIO pins
 //
-// After installing bcm2835, you can build this 
-// with something like:
-// gcc -o pwm pwm.c -l bcm2835 
-// sudo ./pwm
-//
-// Or you can test it before installing with:
-// gcc -o pwm -I ../../src ../../src/bcm2835.c pwm.c
-// sudo ./pwm
-//
-// Connect an LED between GPIO18 (pin 12) and GND to observe the LED changing in brightness
-//
-// Author: Mike McCauley
-// Copyright (C) 2013 Mike McCauley
-// $Id: RF22.h,v 1.21 2012/05/30 01:51:25 mikem Exp $
+
 #include <bcm2835.h>
 #include <stdio.h>
 // PWM output on RPi Plug P1 pin 12 (which is GPIO pin 18)
